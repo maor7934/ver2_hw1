@@ -1,5 +1,5 @@
 package homework1;
-
+//hi dael
 /**
  * A GeoSegment models a straight line segment on the earth. GeoSegments 
  * are immutable.
@@ -44,14 +44,43 @@ public class GeoSegment  {
 	
   	// TODO Write abstraction function and representation invariant
 	
+	// representation invariant:
+	// object is not null
+	// 0 <= heading < 360 
+	public static final double MIN_HEADING = 0;
+	public static final double MAX_HEADING = 360;
+	// abstraction function:
+	// represent a segment: connection between 2 geographic points, along with its name, length, and angle from the north.
 	
+	final String name;
+	final GeoPoint p1;
+	final GeoPoint p2;
+	final double length;
+	final double heading;
+	
+	/*
+	 * Checks the rep. Inv.
+	 * 
+	 * @throws Assertion error if violated.
+	 */
+	private void checkRep () {
+  		assert 
+  		this != null && this instanceof GeoSegment && this.heading < MAX_HEADING && this.heading >=MIN_HEADING:
+  					"Rep. Inv. of class GeoSegment is violated.";
+  	}
   	/**
      * Constructs a new GeoSegment with the specified name and endpoints.
      * @requires name != null && p1 != null && p2 != null
      * @effects constructs a new GeoSegment with the specified name and endpoints.
      **/
   	public GeoSegment(String name, GeoPoint p1, GeoPoint p2) {
-  		// TODO Implement this method
+  		this.name = name;
+  		this.p1 = p1;
+  		this.p2 = p2;
+  		this.length = p1.distanceTo(p2);
+  		this.heading = p1.headingTo(p2);
+  		this.checkRep();
+  		
   	}
 
 
@@ -61,7 +90,9 @@ public class GeoSegment  {
      *         && gs.p1 = this.p2 && gs.p2 = this.p1
      **/
   	public GeoSegment reverse() {
-  		// TODO Implement this method
+  		this.checkRep();
+  		return new GeoSegment(this.name, this.p2,this.p1);
+  		
   	}
 
 
@@ -70,7 +101,8 @@ public class GeoSegment  {
      * @return the name of this GeoSegment.
      */
   	public String getName() {
-  		// TODO Implement this method
+  		this.checkRep();
+  		return this.name;
   	}
 
 
@@ -79,7 +111,8 @@ public class GeoSegment  {
      * @return first endpoint of the segment.
      */
   	public GeoPoint getP1() {
-  		// TODO Implement this method
+  		this.checkRep();
+  		return this.p1;
   	}
 
 
@@ -88,7 +121,8 @@ public class GeoSegment  {
      * @return second endpoint of the segment.
      */
   	public GeoPoint getP2() {
-  		// TODO Implement this method
+  		this.checkRep();
+  		return this.p2;
   	}
 
 
@@ -98,7 +132,8 @@ public class GeoSegment  {
      *         Technion approximation.
      */
   	public double getLength() {
-  		// TODO Implement this method
+  		this.checkRep();
+  		return this.length;
   	}
 
 
@@ -109,7 +144,8 @@ public class GeoSegment  {
      *         flat-surface, near the Technion approximation.
      **/
   	public double getHeading() {
-  		// TODO Implement this method
+  		this.checkRep();
+  		return this.heading;
   	}
 
 
@@ -119,7 +155,19 @@ public class GeoSegment  {
      *         && gs.name = this.name && gs.p1 = this.p1 && gs.p2 = this.p2
    	 **/
   	public boolean equals(Object gs) {
-  		// TODO Implement this method
+  		this.checkRep();
+  		
+  		boolean result = false;
+		try {
+	  		if ((gs != null) && (gs instanceof GeoSegment)){
+				GeoSegment gsCast = (GeoSegment) gs;
+	  			result = ((gsCast != null) && (this.name.equals(gsCast.getName())) &&
+	  					(this.p1 == gsCast.getP1()) && (this.p2 == gsCast.getP2()));
+	  		}
+  		} finally {
+  			this.checkRep();
+  		}
+		return result;
   	}
 
 
@@ -129,9 +177,16 @@ public class GeoSegment  {
      **/
   	public int hashCode() {
     	// This implementation will work, but you may want to modify it 
-    	// for improved performance. 
-
-    	return 1;
+    	// for improved performance.
+  		int hashValue = 1;
+  		this.checkRep();
+  		try {
+  			double hashMid = (this.getHeading()*this.getLength())*(this.getP1().hashCode() * this.getP2().hashCode())*(this.getName().length());
+  			hashValue = (int) Math.round(hashMid);
+  		} catch (Exception e) {
+  			hashValue = 1;
+  		}
+  		return hashValue;
   	}
 
 
@@ -140,7 +195,8 @@ public class GeoSegment  {
      * @return a string representation of this.
      **/
   	public String toString() {
-  		// TODO Implement this method
+  		return String.format("Segment %s between p1: %s and p2: %s, has length of %f [Km]and heading of %d [deg]",
+  				this.name,this.p1.toString(),this.p2.toString(), this.length, this.heading);
   	}
 
 }
