@@ -62,7 +62,7 @@ public class RouteFormatterGUI extends JPanel {
 		btnAddSegment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dlgSegments.setVisible(true);
-			}
+			}a
 		});
 
 		// arrange components on grid
