@@ -27,6 +27,14 @@ package homework1;
  *   latitude :  real        // latitude measured in degrees
  *   longitude : real        // longitude measured in degrees
  * </pre>
+ *  * <pre>
+ * <b>Abstract Function:</b>
+ *  Represents a point on earth using latitude and longitude (in a millionth of  a degree)
+ * <b>Represent  Invariant:</b>
+ * MIN_LATITUDE <= latitude <= MAX_LATITUDE) &&
+ * MIN_LONGITUDE <= longitude <= MAX_LONGITUDE
+ * </pre>
+ 
  **/
 public class GeoPoint {
 
@@ -55,21 +63,11 @@ public class GeoPoint {
   	public static final double KM_PER_DEGREE_LONGITUDE = 93.681;
   	
   	/**
-  	 * integer used too normalize calcualtions
+  	 * integer used too normalize calculations
   	 */
   	public static final int ONE_MILLION = 1000000;
 	public static final double MIN_HEADING = 0;
 	public static final double MAX_HEADING = 360;
-	// Implementation hint:
-	// Doubles and floating point math can cause some problems. The exact
-	// value of a double can not be guaranteed except within some epsilon.
-	// Because of this, using doubles for the equals() and hashCode()
-	// methods can have erroneous results. Do not use floats or doubles for
-	// any computations in hashCode(), equals(), or where any other time 
-	// exact values are required. (Exact values are not required for length 
-	// and distance computations). Because of this, you should consider 
-	// using ints for your internal representation of GeoPoint. 
-
   	
   	final int latitude_int;
   	final int longtitude_int;
@@ -163,7 +161,6 @@ public class GeoPoint {
 		// mathematical convention, "east" is 0 degrees, and degrees
 		// increase in the counterclockwise direction.
 
-		// TODO Implement this method
 		this.checkRep();
 		gp.checkRep();
 		assert !this.equals(gp) : "headingTo got 2 identical points";
@@ -172,7 +169,7 @@ public class GeoPoint {
 			double relative_y = ( gp.latitude_int - this.latitude_int ) * (KM_PER_DEGREE_LATITUDE / ONE_MILLION);
 			double relative_x = ( gp.longtitude_int -this.longtitude_int )  * (KM_PER_DEGREE_LONGITUDE/ ONE_MILLION);
 			double radian = - Math.atan2(relative_y, relative_x);
-			double degree = Math.toDegrees(radian) + 90; // TODO: move to const
+			double degree = Math.toDegrees(radian) + 90;
 			if (degree < 0) {
 				degree += MAX_HEADING;
 			}
@@ -180,7 +177,6 @@ public class GeoPoint {
 		} finally {
 			this.checkRep();
 			gp.checkRep();
-			//TODO : check 360 and 0 validity
 		}
 	}
 
