@@ -52,7 +52,12 @@ public class WalkingRouteFormatter extends RouteFormatter {
      * above.
      **/
   	public String computeLine(GeoFeature geoFeature, double origHeading) {
-  		
+  		//TODO !=null is not required, what to do?
+  		assert geoFeature != null && origHeading >= GeoPoint.MIN_HEADING && origHeading < GeoPoint.MAX_HEADING :
+  			"WalkingRuote computeLine: invallild origHeading";
+  		String direction_line = this.getTurnString(origHeading,  geoFeature.getStartHeading()) +
+  				" onto " +  geoFeature.getName() + " and walk for " + Math.round(geoFeature.getLength() * 20 ) + "minutes.";
+  		return direction_line;
 		// Implementation hint:
 		// You may find the class java.text.DecimalFormat useful when
 		// implementing this method. More info can be found at:
