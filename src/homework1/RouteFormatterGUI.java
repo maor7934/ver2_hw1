@@ -164,7 +164,7 @@ public class RouteFormatterGUI extends JPanel {
 	/**
 	 * Generates an array with the legal segments.
 	 * @requires segmentsList != null && segmentsList.length > 0
-	 * @return a new GeoSegment array with the legal segment we can take.
+	 * @return a new GeoSegment array with the legal segment we can take next.
 	 */
 	public GeoSegment[] getRelevantSegments(GeoSegment[] segmentsList) {
 		assert (segmentsList != null) && (segmentsList.length > 0) : "RouteFormatterGui getRelevantSegments: given list is null or empty";
