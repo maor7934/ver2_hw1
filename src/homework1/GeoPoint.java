@@ -77,8 +77,8 @@ public class GeoPoint {
   	 */
   	private void checkRep () {
   		assert 
-  		this.latitude_int <= MAX_LATITUDE and this.latitude_int >=MIN_LATITUDE
-  				and this.longtitude <= MAX_LATITUDE and this.longtitude >=MIN_LONGITUDE:
+  		this.latitude_int <= MAX_LATITUDE && this.latitude_int >=MIN_LATITUDE
+  				&& this.longtitude_int <= MAX_LATITUDE && this.longtitude_int >=MIN_LONGITUDE:
   					"Rep. Inv. of class GeoPoint is violated.";
   	}
   	
@@ -213,5 +213,6 @@ public class GeoPoint {
 	 **/
 	public String toString() {
 		this.checkRep();
-		return String.format("(latitude,longitude) = (%d,%d)",this.latitude,this.longitude);
+		return String.format("(latitude,longitude) = (%d,%d)",this.latitude_int,this.longtitude_int);
 	}
+}

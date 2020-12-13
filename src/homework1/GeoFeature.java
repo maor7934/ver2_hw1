@@ -59,8 +59,8 @@ public class GeoFeature {
     	assert this.geoSegments.size() != 0 : "GeoFeature RI violated: no segments";
     	assert this.name != null : "GeoFeature RI vioalted: name is null";
     	assert !this.start.equals(this.end) : "GeoFeature RI violated - start equals end";
-    	GeoSegment first, last = null;
-    	for (iterator<GeoSegment> iter = this.geoSegments.iterator(); it.hasNext();) {
+    	GeoSegment first = null, last = null;
+    	for (Iterator<GeoSegment> iter = this.geoSegments.iterator(); iter.hasNext();) {
     		last = first;
     		first = iter.next();
 			assert this.name.equals(first.getName()) :
@@ -71,7 +71,7 @@ public class GeoFeature {
 			}
 			else {
 				assert last.getP2().equals(first.getP1()):
-					"GeoFeature RI violated"
+					"GeoFeature RI violated";
 			}
 			if (!iter.hasNext()) {
 				assert first.getP2().equals(this.end):
@@ -182,7 +182,7 @@ public class GeoFeature {
 	 */
 	public double getLength() {
 		this.checkRep();
-		return this.length()
+		return this.length;
 	}
 
 	/**
@@ -196,10 +196,10 @@ public class GeoFeature {
 	public GeoFeature addSegment(GeoSegment gs) {
 		this.checkRep();
 		assert gs!= null : "GeoFeature addSegment : gs is null";
-		assert this.end.equals(gs.getP1()) : : "GeoFeature addSegment : end != gs.P1";
-		assert this.name.equals((gs.getName()) : "GeoFeature addSegment : gs name doesnt match feature";
+		assert this.end.equals(gs.getP1()) :  "GeoFeature addSegment : end != gs.P1";
+		assert this.name.equals(gs.getName()) : "GeoFeature addSegment : gs name doesnt match feature";
 		try {
-			return new GeoFeature(this, gf);
+			return new GeoFeature(this, gs);
 		}
 		finally {
 			this.checkRep();
@@ -229,7 +229,7 @@ public class GeoFeature {
 	 */
 	public Iterator<GeoSegment> getGeoSegments() {
 		this.checkRep();
-		return this.getGeoSegments().iterator();
+		return this.geoSegments.iterator();
 	}
 
 	/**
@@ -240,8 +240,8 @@ public class GeoFeature {
 	 **/
 	public boolean equals(Object o) {
 		this.checkRep();
-		return o != null && o instance of GeoFeature &&
-				((GeoFeature)o).getGeoSegments().equals((this.geoSegments));
+		return o != null && o instanceof GeoFeature &&
+				((GeoFeature)o).geoSegments.equals((this.geoSegments));
 	}
 
 	/**
@@ -251,7 +251,7 @@ public class GeoFeature {
 	 **/
 	public int hashCode() {
 		this.checkRep();
-		return this.start.hashCode()+this.end.hashCode + (int)this.length;
+		return this.start.hashCode()+this.end.hashCode() + (int)this.length;
 	}
 
 	/**
