@@ -58,6 +58,8 @@ public class GeoPoint {
   	 * integer used too normalize calcualtions
   	 */
   	public static final int ONE_MILLION = 1000000;
+	public static final double MIN_HEADING = 0;
+	public static final double MAX_HEADING = 360;
 	// Implementation hint:
 	// Doubles and floating point math can cause some problems. The exact
 	// value of a double can not be guaranteed except within some epsilon.
@@ -176,6 +178,7 @@ public class GeoPoint {
 		} finally {
 			this.checkRep();
 			gp.checkRep();
+			//TODO : check 360 and 0 validity
 		}
 	}
 
