@@ -195,7 +195,7 @@ public class GeoSegment  {
      * @return a string representation of this.
      **/
   	public String toString() {
-  		return String.format("Segment %s between p1: %s and p2: %s, has length of %f [Km]and heading of %d [deg] \n",
+  		return String.format("Segment %s between p1: %s and p2: %s, has length of %f [Km]and heading of %f [deg] \n",
   				this.name,this.p1.toString(),this.p2.toString(), this.length, this.heading);
   	}
 

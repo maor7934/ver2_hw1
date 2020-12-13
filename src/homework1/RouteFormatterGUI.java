@@ -3,6 +3,8 @@ package homework1;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * A JPanel GUI for representing a Route. This Route is shown as a list of
@@ -62,7 +64,7 @@ public class RouteFormatterGUI extends JPanel {
 		btnAddSegment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dlgSegments.setVisible(true);
-			}a
+			}
 		});
 
 		// arrange components on grid
@@ -142,10 +144,44 @@ public class RouteFormatterGUI extends JPanel {
 	 * 			RouteDirection.computeDirections(this.route,0)
 	 */
 	public void addSegment(GeoSegment segment) {
+		assert segment != null : "RouteFormatterGui addSegmant: segment is null";
 		DefaultListModel<GeoSegment> model =
 				(DefaultListModel<GeoSegment>)(this.lstSegments.getModel());
+		if (this.route != null) {
+			assert this.route.getEnd().equals(segment.getP1()) : "RouteFormatterGui addSegmant: segment doesn't continue the route";
+			this.route = route.addSegment(segment);
+		} else {
+			this.route = new Route(segment);
+		}
+		model.addElement(segment);
+		WalkingRouteFormatter walkingDirections = new WalkingRouteFormatter();
+		DrivingRouteFormatter drivingDirections = new DrivingRouteFormatter();
+		this.txtWalkingDirections.setText(walkingDirections.computeDirections(this.route, 0));
+		this.txtDrivingDirections.setText(drivingDirections.computeDirections(this.route, 0));
 		
-		// TODO Write the body of this method
+	}
+	
+	public GeoSegment[] getRelevantSegments(GeoSegment[] segmentsList) {
+		assert (segmentsList != null) && (segmentsList.length > 0) : "RouteFormatterGui getRelevantSegments: given list is null or empty";
+		return segmentsList;
+		/*
+		if (this.route == null) {
+			return segmentsList;
+		}
+		ArrayList<GeoSegment> filteredGeoSegments = new ArrayList<GeoSegment>();
+		for (int i = 0; i < segmentsList.length; i++) {
+			if (segmentsList[i].getP1().equals(this.route.getEnd())){
+				filteredGeoSegments.add(segmentsList[i]);
+			}
+		}
+		GeoSegment[] segList = new GeoSegment[filteredGeoSegments.size()];
+		Iterator<GeoSegment> i_gs = filteredGeoSegments.iterator();//this.route.getGeoSegments();
+		int i = 0;
+  		while (i_gs.hasNext()) {
+  			segList[i] = i_gs.next();
+  			i++;
+  		}	
+		return segList;*/
 	}
 
 
