@@ -58,7 +58,7 @@ public class GeoFeature {
 	private void checkRep() {
     	assert this.geoSegments.size() != 0 : "GeoFeature RI violated: no segments";
     	assert this.name != null : "GeoFeature RI vioalted: name is null";
-    	assert !this.start.equals(this.end) : "GeoFeature RI violated - start equals end";
+    	//assert !this.start.equals(this.end) : "GeoFeature RI violated - start equals end";
     	GeoSegment first = null, last = null;
     	for (Iterator<GeoSegment> iter = this.geoSegments.iterator(); iter.hasNext();) {
     		last = first;

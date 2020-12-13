@@ -41,7 +41,7 @@ public class RouteFormatterGUI extends JPanel {
 		lstSegments = new JList<>(new DefaultListModel<GeoSegment>());
 		lstSegments.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrlSegments = new JScrollPane(lstSegments);
-		scrlSegments.setPreferredSize(new Dimension(450, 100));
+		scrlSegments.setPreferredSize(new Dimension(700, 200));
 
 		JLabel lblSegments = new JLabel("Route's GeoSegments:");
 		lblSegments.setLabelFor(lstSegments);
@@ -163,8 +163,8 @@ public class RouteFormatterGUI extends JPanel {
 	
 	public GeoSegment[] getRelevantSegments(GeoSegment[] segmentsList) {
 		assert (segmentsList != null) && (segmentsList.length > 0) : "RouteFormatterGui getRelevantSegments: given list is null or empty";
-		return segmentsList;
-		/*
+		//return segmentsList;
+		
 		if (this.route == null) {
 			return segmentsList;
 		}
@@ -181,7 +181,7 @@ public class RouteFormatterGUI extends JPanel {
   			segList[i] = i_gs.next();
   			i++;
   		}	
-		return segList;*/
+		return segList;
 	}
 
 

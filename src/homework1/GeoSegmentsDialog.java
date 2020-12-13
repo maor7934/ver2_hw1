@@ -44,15 +44,21 @@ public class GeoSegmentsDialog extends JDialog {
 		this.parent = pnlParent;
 		
 		// TODO Write the body of this method
-		this.lstSegments = new JList(this.parent.getRelevantSegments(ExampleGeoSegments.segments)); 
+		//GeoSegment[] legalSegments = pnlParent.getRelevantSegments(ExampleGeoSegments.segments);
+		lstSegments = new JList(pnlParent.getRelevantSegments(ExampleGeoSegments.segments));
 		JScrollPane scrlSegments = new JScrollPane(lstSegments);
-		scrlSegments.setPreferredSize(new Dimension(450, 100));
-		
+		scrlSegments.setPreferredSize(new Dimension(850, 450));
 		JButton btnAddSegment = new JButton("Add GeoSegment");
 		btnAddSegment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				GeoSegment[] legalSegments = pnlParent.getRelevantSegments(ExampleGeoSegments.segments);
 				GeoSegment chosenSegment = lstSegments.getSelectedValue();
-				pnlParent.addSegment(chosenSegment);
+				for (int i = 0; i < legalSegments.length ; i++) {
+					if (chosenSegment.equals(legalSegments[i])){
+						pnlParent.addSegment(chosenSegment);
+					}
+				}
+				//pnlParent.addSegment(chosenSegment);
 			}
 		});
 		
@@ -73,7 +79,7 @@ public class GeoSegmentsDialog extends JDialog {
 		c.gridy = 1;
 		c.gridwidth = 1;
 		c.gridheight = 5;
-		c.insets = new Insets(0,0,0,0);
+		c.insets = new Insets(25,25,25,25);
 		gridbag.setConstraints(scrlSegments, c);
 		this.add(scrlSegments);
 		
@@ -82,7 +88,7 @@ public class GeoSegmentsDialog extends JDialog {
 		c.gridy = 15;
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		c.insets = new Insets(20,0,20,20);
+		c.insets = new Insets(25,0,25,25);
 		c.anchor = GridBagConstraints.EAST;
 		gridbag.setConstraints(btnAddSegment, c);
 		this.add(btnAddSegment);
@@ -91,7 +97,7 @@ public class GeoSegmentsDialog extends JDialog {
 		c.gridy = 15;
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		c.insets = new Insets(20,20,20,0);
+		c.insets = new Insets(25,25,25,0);
 		c.anchor = GridBagConstraints.WEST;
 		gridbag.setConstraints(btnCancelChoosing, c);
 		this.add(btnCancelChoosing);
