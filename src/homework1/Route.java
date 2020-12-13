@@ -55,11 +55,53 @@ public class Route {
 		//TODO : check none of the local variables are null, check that for the segs 
 		//that p1 = previous.p2 and that length = sum of a segs length (can copy from me)
 		// output a message accordingly
-		assert (this != null) && (this instanceof Route) && (this.length > 0) &&
-			(0 <= this.startHeading) && (0 <= this.endHeading) &&
+		
+		assert (this != null) && (this instanceof Route) && 
+			(this.start != null) && (this.end != null) &&
+			(this.geoSegments != null) && (this.geoFeatures != null) && 
+			(this.length > 0) && (0 <= this.startHeading) && (0 <= this.endHeading) &&
 			(this.startHeading < 360) && (this.endHeading < 360) &&
 			(this.geoFeatures.size() > 0) && (this.geoSegments.size() > 0) &&
-			(this.length > 0 );
+			(this.length > 0 ) : "Route got illegal parameters" ;
+		double sumLengthGS = 0;
+		GeoSegment firstGS = null, lastGS = null;
+    	for (Iterator<GeoSegment> iterGS = this.geoSegments.iterator(); iterGS.hasNext();) {
+    		lastGS = firstGS;
+    		firstGS = iterGS.next();
+    		sumLengthGS += firstGS.getLength();
+			if (lastGS == null) {
+				 assert this.start.equals(firstGS.getP1()) : 
+					 "Routes RI violated : first segment p1 != start.";
+			}
+			else {
+				assert lastGS.getP2().equals(firstGS.getP1()):
+					"Routes RI violated";
+			}
+			if (!iterGS.hasNext()) {
+				assert firstGS.getP2().equals(this.end):
+					"Routes RI violated : last segment p2 != end.";
+			}		    				
+    	}
+		double sumLengthGF = 0;
+		GeoFeature firstGF = null, lastGF = null;
+    	for (Iterator<GeoFeature> iterGF = this.geoFeatures.iterator(); iterGF.hasNext();) {
+    		lastGF = firstGF;
+    		firstGF = iterGF.next();
+    		sumLengthGF += firstGF.getLength();
+			if (lastGF == null) {
+				 assert this.start.equals(firstGF.getStart()) : 
+					 "Routes RI violated : first segment p1 != start.";
+			}
+			else {
+				assert lastGF.getEnd().equals(firstGF.getStart()):
+					"Routes RI violated";
+			}
+			if (!iterGF.hasNext()) {
+				assert firstGF.getEnd().equals(this.end):
+					"Routes RI violated : last segment p2 != end.";
+			}    				
+    	}
+    	assert (this.length == sumLengthGF) && (this.length == sumLengthGS) : "Routes Length isn't equal to GF length or GS length";
 
 	}
 
@@ -73,7 +115,7 @@ public class Route {
      *          r.end = gs.p2
      **/
   	public Route(GeoSegment gs) {
-  		// TODO check requirments (see GeoFeature)
+  		assert gs != null : "Route C'tor : gs received is null";
   		this.startHeading = gs.getHeading();
   		this.endHeading = gs.getHeading();
   		this.start = gs.getP1();
@@ -100,8 +142,7 @@ public class Route {
      **/
   	public Route(Route r_old, GeoSegment gs) {
   		r_old.checkRep();
-  	// TODO check requirments (see GeoFeature)
-  		// TODO : can segmants be in legth 0? (---> no heading?)
+  		assert (gs != null) && (gs.getP1() == r_old.getEnd()): "Route c'tor : gs is null or doesn't continue the route";
   		this.startHeading = r_old.getStartHeading();
   		this.endHeading = gs.getHeading();
   		this.start = r_old.getStart();
@@ -182,8 +223,8 @@ public class Route {
      *         r.length = this.length + gs.length
      **/
   	public Route addSegment(GeoSegment gs) {
-  	// TODO check requirments (see GeoFeature)
   		this.checkRep();
+  		assert (gs != null) && (gs.getP1().equals(this.end)) : "Route addSegment: gs is nukll or doesn't continure the route";
   		return new Route(this, gs);
   	}
 
@@ -207,7 +248,6 @@ public class Route {
      * @see homework1.GeoFeature
      **/
   	public Iterator<GeoFeature> getGeoFeatures() {
-  		// TODO Implement this method
   		this.checkRep();
   		Iterator<GeoFeature> iter_gf = this.geoFeatures.iterator();
   		return iter_gf;
@@ -229,7 +269,6 @@ public class Route {
      * @see homework1.GeoSegment
      **/
   	public Iterator<GeoSegment> getGeoSegments() {
-  		// TODO Implement this method
   		this.checkRep();
   		Iterator<GeoSegment> iter_gs = this.geoSegments.iterator();
   		return iter_gs;
