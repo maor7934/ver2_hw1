@@ -53,7 +53,12 @@ public class DrivingRouteFormatter extends RouteFormatter {
 		assert geoFeature != null && origHeading >= GeoPoint.MIN_HEADING && origHeading < GeoPoint.MAX_HEADING
 				: "DrivingRoute computeLine: invallild origHeading";
 		String direction_line = this.getTurnString(origHeading, geoFeature.getStartHeading())
-				+ "onto " + geoFeature.getName() + " and go " + String.format("%.1f kilometers.\n", geoFeature.getLength());
+				+ "onto " + geoFeature.getName() + " and go ";
+
+		String kilmoteres  = (geoFeature.getLength() == Math.floor(geoFeature.getLength())) ?
+				String.format("%.0f kilometers.\n", geoFeature.getLength()) :
+					String.format("%.1f kilometers.\n", geoFeature.getLength());
+		direction_line = direction_line.concat(kilmoteres);
 		return direction_line;
 		// Implementation hint:
 		// You may find the class java.text.DecimalFormat useful when

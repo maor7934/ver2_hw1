@@ -133,11 +133,10 @@ public class GeoPoint {
   		gp.checkRep();
   		try {
   			// Exact values not required, can use doubles
-  			double y_distance = (this.latitude_int - gp.latitude_int)   * (KM_PER_DEGREE_LATITUDE/ONE_MILLION);
-  			double x_distance = (this.longtitude_int - gp.longtitude_int)*(KM_PER_DEGREE_LONGITUDE/ONE_MILLION);
+  			double y_distance = (this.latitude_int - gp.latitude_int) * (KM_PER_DEGREE_LATITUDE/ONE_MILLION);
+  			double x_distance = (this.longtitude_int - gp.longtitude_int) * (KM_PER_DEGREE_LONGITUDE/ONE_MILLION);
   			double total_distance = Math.sqrt(Math.pow(x_distance, 2)  + Math.pow(y_distance, 2));
-  			return total_distance;
-  			
+  			return total_distance;	
   		}
   		 finally {
   			 gp.checkRep();
