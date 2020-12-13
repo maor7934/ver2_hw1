@@ -59,7 +59,7 @@ public class Route {
 			(0 <= this.startHeading) && (0 <= this.endHeading) &&
 			(this.startHeading < 360) && (this.endHeading < 360) &&
 			(this.geoFeatures.size() > 0) && (this.geoSegments.size() > 0) &&
-			(this.length > 0 );
+			(this.length > 0 ) : "fail!!!";
 
 	}
 
@@ -84,7 +84,7 @@ public class Route {
 		GeoFeature gf =new GeoFeature(gs);
 		this.geoFeatures.add(gf);
 		
-		this.length = gf.getLength();
+		this.length = gs.getLength();
 		
 		this.checkRep();
   	}

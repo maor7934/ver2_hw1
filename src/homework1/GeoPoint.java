@@ -133,8 +133,8 @@ public class GeoPoint {
   		gp.checkRep();
   		try {
   			// Exact values not required, can use doubles
-  			double y_distance = ((this.latitude_int - gp.latitude_int)/ONE_MILLION)*KM_PER_DEGREE_LATITUDE;
-  			double x_distance = ((this.longtitude_int - gp.longtitude_int)/ONE_MILLION)*KM_PER_DEGREE_LONGITUDE;
+  			double y_distance = (this.latitude_int - gp.latitude_int)   * (KM_PER_DEGREE_LATITUDE/ONE_MILLION);
+  			double x_distance = (this.longtitude_int - gp.longtitude_int)*(KM_PER_DEGREE_LONGITUDE/ONE_MILLION);
   			double total_distance = Math.sqrt(Math.pow(x_distance, 2)  + Math.pow(y_distance, 2));
   			return total_distance;
   			
@@ -170,10 +170,13 @@ public class GeoPoint {
 		assert !this.equals(gp) : "headingTo got 2 identical points";
 		assert gp != null : "headingTo got null gp";
 		try {
-			double relative_y = (this.latitude_int - gp.latitude_int) / ONE_MILLION * KM_PER_DEGREE_LATITUDE;
-			double relative_x = (this.longtitude_int - gp.longtitude_int) / ONE_MILLION * KM_PER_DEGREE_LATITUDE;
+			double relative_y = ( gp.latitude_int - this.latitude_int ) * (KM_PER_DEGREE_LATITUDE / ONE_MILLION);
+			double relative_x = ( gp.longtitude_int -this.longtitude_int )  * (KM_PER_DEGREE_LONGITUDE/ ONE_MILLION);
 			double radian = - Math.atan2(relative_y, relative_x);
 			double degree = Math.toDegrees(radian) + 90; // TODO: move to const
+			if (degree < 0) {
+				degree += MAX_HEADING;
+			}
 			return degree;
 		} finally {
 			this.checkRep();
