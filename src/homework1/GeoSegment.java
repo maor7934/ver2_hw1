@@ -1,5 +1,4 @@
 package homework1;
-//hi dael
 /**
  * A GeoSegment models a straight line segment on the earth. GeoSegments 
  * are immutable.
@@ -64,6 +63,7 @@ public class GeoSegment  {
 	 * @throws Assertion error if violated.
 	 */
 	private void checkRep () {
+		//TODO name != null p1, p2 != nul length > 0. does instance of has meaning?
   		assert 
   		this != null && this instanceof GeoSegment && this.heading < MAX_HEADING && this.heading >=MIN_HEADING:
   					"Rep. Inv. of class GeoSegment is violated.";
@@ -74,6 +74,7 @@ public class GeoSegment  {
      * @effects constructs a new GeoSegment with the specified name and endpoints.
      **/
   	public GeoSegment(String name, GeoPoint p1, GeoPoint p2) {
+  	// TODO check requirments (see GeoFeature)
   		this.name = name;
   		this.p1 = p1;
   		this.p2 = p2;
@@ -144,6 +145,7 @@ public class GeoSegment  {
      *         flat-surface, near the Technion approximation.
      **/
   	public double getHeading() {
+  	// TODO check requirments (see GeoFeature)
   		this.checkRep();
   		return this.heading;
   	}
@@ -168,6 +170,8 @@ public class GeoSegment  {
   			this.checkRep();
   		}
 		return result;
+		//TODO return before finally
+		//TODO p1 equals and not ==
   	}
 
 
@@ -181,6 +185,7 @@ public class GeoSegment  {
   		int hashValue = 1;
   		this.checkRep();
   		try {
+  			//TODO . using ony int for precise calc, not using round because ambigious
   			double hashMid = (this.getHeading()*this.getLength())*(this.getP1().hashCode() * this.getP2().hashCode())*(this.getName().length());
   			hashValue = (int) Math.round(hashMid);
   		} catch (Exception e) {
