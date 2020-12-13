@@ -35,16 +35,21 @@ import java.util.Iterator;
  *   name : String          // name of geographic feature
  *   length : real          // total length of the geographic feature, in kilometers
  * </pre>
+ *  * <b>
+ *  Abstract Function:
+ * 	  Represents a route from one location using a collection of segments with identical name.
+ * 	  holds the name of the feature along with 2 endpoints, length, start and end direction,
+ *    and the list of the segments
+ *
+ * Represent Invariant:
+ * 	  start && end != null
+ * 	  name != null
+ * 	 segments are continuous
+ * </b>
+ * </pre>
  **/
 public class GeoFeature {
 
-	// Implementation hint:
-	// When asked to return an Iterator, consider using the iterator() method
-	// in the List interface. Two nice classes that implement the List
-	// interface are ArrayList and LinkedList. If comparing two Lists for
-	// equality is needed, consider using the equals() method of List. More
-	// info can be found at:
-	// http://docs.oracle.com/javase/8/docs/api/java/util/List.html
 
 	final GeoPoint start;
 	final GeoPoint end;
@@ -54,7 +59,6 @@ public class GeoFeature {
 	final ArrayList<GeoSegment> geoSegments;
 	final String name;
 
-	// TODO Write abstraction function and representation invariant
 	private void checkRep() {
     	assert this.geoSegments.size() != 0 : "GeoFeature RI violated: no segments";
     	assert this.name != null : "GeoFeature RI vioalted: name is null";
@@ -261,6 +265,6 @@ public class GeoFeature {
 	 **/
 	public String toString() {
 		this.checkRep();
-		return this.name; //TODO MAKE THIS MORE INFORMATIVE IMPORTANT!!
+		return this.name;
 	}
 }
