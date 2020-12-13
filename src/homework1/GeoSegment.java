@@ -62,10 +62,10 @@ public class GeoSegment  {
 	 * 
 	 * @throws Assertion error if violated.
 	 */
-	private void checkRep () {
-		//TODO name != null p1, p2 != nul length > 0. does instance of has meaning?
+	private void checkRep() {
   		assert 
-  		this != null && this instanceof GeoSegment && this.heading < MAX_HEADING && this.heading >=MIN_HEADING:
+  		this != null && this instanceof GeoSegment && this.heading < MAX_HEADING && this.heading >=MIN_HEADING &&
+  			this.name != null && this.p1 != null && this.p2 != null & this.length >= 0:
   					"Rep. Inv. of class GeoSegment is violated.";
   	}
   	/**
@@ -74,7 +74,7 @@ public class GeoSegment  {
      * @effects constructs a new GeoSegment with the specified name and endpoints.
      **/
   	public GeoSegment(String name, GeoPoint p1, GeoPoint p2) {
-  	// TODO check requirments (see GeoFeature)
+  		assert name != null && p1 != null && p2 != null: "GeoSegment C'tor : at least one of the parameters is null";
   		this.name = name;
   		this.p1 = p1;
   		this.p2 = p2;
@@ -145,8 +145,9 @@ public class GeoSegment  {
      *         flat-surface, near the Technion approximation.
      **/
   	public double getHeading() {
-  	// TODO check requirments (see GeoFeature)
+
   		this.checkRep();
+  		assert this.length != 0: "GeoSegment getHeading : length is 0";
   		return this.heading;
   	}
 
@@ -158,20 +159,17 @@ public class GeoSegment  {
    	 **/
   	public boolean equals(Object gs) {
   		this.checkRep();
-  		
   		boolean result = false;
 		try {
 	  		if ((gs != null) && (gs instanceof GeoSegment)){
 				GeoSegment gsCast = (GeoSegment) gs;
 	  			result = ((gsCast != null) && (this.name.equals(gsCast.getName())) &&
-	  					(this.p1 == gsCast.getP1()) && (this.p2 == gsCast.getP2()));
+	  					(this.p1.equals(gsCast.getP1())) && (this.p2.equals(gsCast.getP2())));
 	  		}
+	  		return result;
   		} finally {
   			this.checkRep();
   		}
-		return result;
-		//TODO return before finally
-		//TODO p1 equals and not ==
   	}
 
 
@@ -185,15 +183,12 @@ public class GeoSegment  {
   		int hashValue = 1;
   		this.checkRep();
   		try {
-  			//TODO . using ony int for precise calc, not using round because ambigious
-  			double hashMid = (this.getHeading()*this.getLength())*(this.getP1().hashCode() * this.getP2().hashCode())*(this.getName().length());
-  			hashValue = (int) Math.round(hashMid);
+  			hashValue = (this.getP1().hashCode() * this.getP2().hashCode())*(this.getName().length());
   		} catch (Exception e) {
   			hashValue = 1;
   		}
   		return hashValue;
   	}
-
 
   	/**
   	 * Returns a string representation of this.
